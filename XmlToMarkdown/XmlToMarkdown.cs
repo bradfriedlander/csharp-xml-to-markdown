@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Linq;
+using static System.String;
+
+namespace XmlToMarkdown
+{
+    internal static class XmlToMarkdown
+    {
+        private const string MemberPattern = "^[T|M|P|F|E]:";
+
+        private static readonly Func<string, XElement, string[]> d = new Func<string, XElement, string[]>((att, node) =>
+        {
+            var attValue = node.Attribute(att).Value;
+            attValue = Regex.Replace(attValue, MemberPattern, Empty);
+            return new[]
+            {
+                    attValue,
+                    node.Nodes().ToMarkDown()
+                    };
+        });
+
+        private static readonly Func<string, XElement, string[]> dl = new Func<string, XElement, string[]>((att, node) =>
+        {
+            var attValue = node.Attribute(att).Value;
+            attValue = Regex.Replace(attValue, MemberPattern, Empty);
+            return new[]
+            {
+                    attValue.ToLower(),
+                    node.Nodes().ToMarkDown()
+                    };
+        });
+
+        private static readonly Dictionary<string, string> templates = BuildTemplates();
+        private static Dictionary<string, Func<XElement, IEnumerable<string>>> methods;
+        private static bool previousWasParameter;
+        private static string rootName;
+
+        internal static string ToMarkDown(this XNode e)
+        {
+            if (methods == null)
+            {
+                BuildMethods();
+            }
+            string name;
+            if (e.NodeType == XmlNodeType.Element)
+            {
+                var el = (XElement)e;
+                name = el.Name.LocalName;
+                if (name == "doc")
+                {
+                    rootName = el.Element("assembly").Element("name").Value;
+                }
+                var previousNode = e.PreviousNode;
+                previousWasParameter = previousNode != null && previousNode.NodeType == XmlNodeType.Element && ((XElement)previousNode).Name.LocalName == "param";
+                if (previousWasParameter && name == "param")
+                {
+                    name = "param2";
+                }
+                if (name == "member")
+                {
+                    switch (el.Attribute("name").Value[0])
+                    {
+                        case 'F':
+                            name = "field";
+                            break;
+                        case 'P':
+                            name = "property";
+                            break;
+                        case 'T':
+                            name = "type";
+                            break;
+                        case 'E':
+                            name = "event";
+                            break;
+                        case 'M':
+                            name = "method";
+                            break;
+                        default:
+                            name = "none";
+                            break;
+                    }
+                }
+                if (name == "see" || name == "seealso")
+                {
+                    var attValue = Regex.Replace(el.Attribute("cref").Value, MemberPattern, Empty);
+                    name = attValue.StartsWith("!:#") ? "seeAnchor" : attValue.StartsWith(rootName) ? "seeHeader" : "seePage";
+                }
+                return Format(templates[name], methods[name](el).ToArray());
+            }
+            return e.NodeType == XmlNodeType.Text ? Regex.Replace(((XText)e).Value.Replace('\n', ' '), @"\s+", " ") : Empty;
+        }
+
+        internal static string ToMarkDown(this IEnumerable<XNode> es) => es.Aggregate("", (current, x) => current + x.ToMarkDown());
+
+        private static void BuildMethods()
+        {
+            methods = new Dictionary<string, Func<XElement, IEnumerable<string>>>
+                {
+                    {"doc", x=> new[]{
+                        x.Element("assembly").Element("name").Value,
+                        x.Element("members").Elements("member").ToMarkDown()
+                    }},
+                    {"type", x=>d("name", x)},
+                    {"field", x=> d("name", x)},
+                    {"property", x=> d("name", x)},
+                    {"method",x=>d("name", x)},
+                    {"event", x=>d("name", x)},
+                    {"summary", x=> new[]{ x.Nodes().ToMarkDown() }},
+                    {"remarks", x => new[]{x.Nodes().ToMarkDown()}},
+                    {"example", x => new[]{x.Value.ToCodeBlock()}},
+                    {"seePage", x=> d("cref", x) },
+                    {"seeAnchor", x=> dl("cref",x)},
+                    {"seeHeader", x=> d("cref", x) },
+                    {"param", x => d("name", x) },
+                    {"param2", x => d("name", x) },
+                    {"paramref",x=> d("name", x) },
+                    {"exception", x => d("cref", x) },
+                    {"returns", x => new[]{x.Nodes().ToMarkDown()}},
+                    {"para", x => new[]{x.Nodes().ToMarkDown()}},
+                    {"value", x=> new[]{x.Nodes().ToMarkDown()}},
+                    {"c", x=> new[]{x.Nodes().ToMarkDown()}},
+                    {"none", x => new string[0]}
+                };
+        }
+
+        private static Dictionary<string, string> BuildTemplates()
+        {
+            return new Dictionary<string, string>
+            {
+                {"doc", "# {0}\n\n{1}\n\n"},
+                {"type", "## {0}\n\n{1}\n\n---\n"},
+                {"field", "### {0}\n\n{1}\n\n---\n"},
+                {"property", "### {0}\n\n{1}\n\n---\n"},
+                {"method", "### {0}\n\n{1}\n\n---\n"},
+                {"event", "### {0}\n\n{1}\n\n---\n"},
+                {"summary", "{0}\n\n"},
+                {"remarks", "\n\n{0}\n\n"},
+                {"example", "_C# code_\n\n```c#\n{0}\n```\n\n"},
+                {"seePage", "`{0}`"},
+                {"seeAnchor", "[{1}]({0})"},
+                {"seeHeader", "[{0}]"},
+                {"param", "| Parameter | Description |\n|-----|------|\n| {0} | {1} |\n" },
+                {"param2", "| {0} | {1} |\n" },
+                {"paramref","`{0}`" },
+                {"exception", "[[{0}|{0}]]: {1}\n\n" },
+                {"returns", "\n**Returns:** {0}\n\n"},
+                {"para", "\n\n{0}\n\n"},
+                {"value","**Value:** {0}\n\n" },
+                {"c","`{0}`" },
+                {"none", ""}
+            };
+        }
+
+        private static string ToCodeBlock(this string s)
+        {
+            var lines = s.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var blank = lines[0].TakeWhile(x => x == ' ').Count() - 4;
+            return Join("\n", lines.Select(x => new string(x.SkipWhile((y, i) => i < blank).ToArray())));
+        }
+    }
+}

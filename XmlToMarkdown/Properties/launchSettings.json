@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "XmlToMarkdown": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\TestDev\\demoMetrics\\src\\MagenicMetrics\\MagenicMetrics.xml\" \"C:\\TestDev\\demoMetrics\\documentation\\MagenicMetrics.md\""
+    }
+  }
+}
