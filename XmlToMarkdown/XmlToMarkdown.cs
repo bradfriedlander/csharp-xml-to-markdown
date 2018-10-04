@@ -35,6 +35,7 @@ namespace XmlToMarkdown
         });
 
         private static readonly Dictionary<string, string> templates = BuildTemplates();
+        private static string currentlistPrefix;
         private static Dictionary<string, Func<XElement, IEnumerable<string>>> methods;
         private static bool previousWasParameter;
         private static string rootName;
@@ -89,6 +90,11 @@ namespace XmlToMarkdown
                     var attValue = Regex.Replace(el.Attribute("cref").Value, MemberPattern, Empty);
                     name = attValue.StartsWith("!:#") ? "seeAnchor" : attValue.StartsWith(rootName) ? "seeHeader" : "seePage";
                 }
+                if (name == "list")
+                {
+                    var attValue = el.Attribute("type").Value;
+                    currentlistPrefix = attValue == "number" ? "1." : "*";
+                }
                 return Format(templates[name], methods[name](el).ToArray());
             }
             return e.NodeType == XmlNodeType.Text ? Regex.Replace(((XText)e).Value.Replace('\n', ' '), @"\s+", " ") : Empty;
@@ -100,7 +106,8 @@ namespace XmlToMarkdown
         {
             methods = new Dictionary<string, Func<XElement, IEnumerable<string>>>
                 {
-                    {"doc", x=> new[]{
+                    {"doc", x=> new[]
+                    {
                         x.Element("assembly").Element("name").Value,
                         x.Element("members").Elements("member").ToMarkDown()
                     }},
@@ -123,6 +130,12 @@ namespace XmlToMarkdown
                     {"para", x => new[]{x.Nodes().ToMarkDown()}},
                     {"value", x=> new[]{x.Nodes().ToMarkDown()}},
                     {"c", x=> new[]{x.Nodes().ToMarkDown()}},
+                    {"list",x=> new[]{x.Nodes().ToMarkDown()}},
+                    {"item",x=> new[]
+                    {
+                        currentlistPrefix,
+                        x.Nodes().ToMarkDown()
+                    }},
                     {"none", x => new string[0]}
                 };
         }
@@ -151,7 +164,9 @@ namespace XmlToMarkdown
                 {"para", "\n\n{0}\n\n"},
                 {"value","**Value:** {0}\n\n" },
                 {"c","`{0}`" },
-                {"none", ""}
+                {"list","{0}\n\n"},
+                {"item","{0} {1}\n"},
+                {"none", Empty}
             };
         }
 
