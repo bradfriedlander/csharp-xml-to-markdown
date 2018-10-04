@@ -142,7 +142,7 @@ namespace XmlToMarkdown
                 {"example", "_C# code_\n\n```c#\n{0}\n```\n\n"},
                 {"seePage", "`{0}`"},
                 {"seeAnchor", "[{1}]({0})"},
-                {"seeHeader", "[{0}]"},
+                {"seeHeader", "[{0}](#{0})"},
                 {"param", "| Parameter | Description |\n|-----|------|\n| {0} | {1} |\n" },
                 {"param2", "| {0} | {1} |\n" },
                 {"paramref","`{0}`" },
