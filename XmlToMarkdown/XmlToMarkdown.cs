@@ -11,6 +11,8 @@ namespace XmlToMarkdown
     internal static class XmlToMarkdown
     {
         private const string MemberPattern = "^[T|M|P|F|E]:";
+        private const string ParameterTableHeader = "| Parameter | Description |\n|-----|------|\n| {0} | {1} |\n";
+        private const string ListTableHeader = "| {0} | {1} |\n|-----|------|\n";
 
         private static readonly Func<string, XElement, string[]> d = new Func<string, XElement, string[]>((att, node) =>
         {
@@ -39,6 +41,7 @@ namespace XmlToMarkdown
         private static Dictionary<string, Func<XElement, IEnumerable<string>>> methods;
         private static bool previousWasParameter;
         private static string rootName;
+        private static bool isListTable;
 
         internal static string ToMarkDown(this XNode e)
         {
@@ -56,8 +59,11 @@ namespace XmlToMarkdown
                     rootName = el.Element("assembly").Element("name").Value;
                 }
                 var previousNode = e.PreviousNode;
-                previousWasParameter = previousNode != null && previousNode.NodeType == XmlNodeType.Element && ((XElement)previousNode).Name.LocalName == "param";
-                if (previousWasParameter && name == "param")
+                previousWasParameter =
+                    previousNode != null
+                    && previousNode.NodeType == XmlNodeType.Element
+                    && (((XElement)previousNode).Name.LocalName == "param" || ((XElement)previousNode).Name.LocalName == "typeparam");
+                if (previousWasParameter && (name == "param" || name == "typeparam"))
                 {
                     name = "param2";
                 }
@@ -93,7 +99,29 @@ namespace XmlToMarkdown
                 if (name == "list")
                 {
                     var attValue = el.Attribute("type").Value;
-                    currentlistPrefix = attValue == "number" ? "1." : "*";
+                    switch (attValue)
+                    {
+                        case "number":
+                            currentlistPrefix = "1.";
+                            isListTable = false;
+                            break;
+                        case "bullet":
+                            currentlistPrefix = "*";
+                            isListTable = false;
+                            break;
+                        case "table":
+                            currentlistPrefix = "|";
+                            isListTable = true;
+                            break;
+                        default:
+                            currentlistPrefix = Empty;
+                            isListTable = false;
+                            break;
+                    }
+                }
+                if (name == "item" && isListTable)
+                {
+                    name = "tableitem";
                 }
                 return Format(templates[name], methods[name](el).ToArray());
             }
@@ -105,39 +133,53 @@ namespace XmlToMarkdown
         private static void BuildMethods()
         {
             methods = new Dictionary<string, Func<XElement, IEnumerable<string>>>
+            {
+                {"doc", x=> new[]
                 {
-                    {"doc", x=> new[]
-                    {
-                        x.Element("assembly").Element("name").Value,
-                        x.Element("members").Elements("member").ToMarkDown()
-                    }},
-                    {"type", x=>d("name", x)},
-                    {"field", x=> d("name", x)},
-                    {"property", x=> d("name", x)},
-                    {"method",x=>d("name", x)},
-                    {"event", x=>d("name", x)},
-                    {"summary", x=> new[]{ x.Nodes().ToMarkDown() }},
-                    {"remarks", x => new[]{x.Nodes().ToMarkDown()}},
-                    {"example", x => new[]{x.Value.ToCodeBlock()}},
-                    {"seePage", x=> d("cref", x) },
-                    {"seeAnchor", x=> dl("cref",x)},
-                    {"seeHeader", x=> d("cref", x) },
-                    {"param", x => d("name", x) },
-                    {"param2", x => d("name", x) },
-                    {"paramref",x=> d("name", x) },
-                    {"exception", x => d("cref", x) },
-                    {"returns", x => new[]{x.Nodes().ToMarkDown()}},
-                    {"para", x => new[]{x.Nodes().ToMarkDown()}},
-                    {"value", x=> new[]{x.Nodes().ToMarkDown()}},
-                    {"c", x=> new[]{x.Nodes().ToMarkDown()}},
-                    {"list",x=> new[]{x.Nodes().ToMarkDown()}},
-                    {"item",x=> new[]
-                    {
-                        currentlistPrefix,
-                        x.Nodes().ToMarkDown()
-                    }},
-                    {"none", x => new string[0]}
-                };
+                    x.Element("assembly").Element("name").Value,
+                    x.Element("members").Elements("member").ToMarkDown()
+                }},
+                {"type", x=>d("name", x)},
+                {"field", x=> d("name", x)},
+                {"property", x=> d("name", x)},
+                {"method", x=>d("name", x)},
+                {"event", x=>d("name", x)},
+                {"summary", x=> new[]{x.Nodes().ToMarkDown() }},
+                {"remarks", x => new[]{x.Nodes().ToMarkDown()}},
+                {"example", x => new[]{x.Value.ToCodeBlock()}},
+                {"seePage", x=> d("cref", x) },
+                {"seeAnchor", x=> dl("cref",x)},
+                {"seeHeader", x=> d("cref", x) },
+                {"param", x => d("name", x) },
+                {"typeparam", x => d("name", x) },
+                {"param2", x => d("name", x) },
+                {"paramref",x=> d("name", x) },
+                {"typeparamref",x=> d("name", x) },
+                {"exception", x => d("cref", x) },
+                {"returns", x => new[]{x.Nodes().ToMarkDown()}},
+                {"para", x => new[]{x.Nodes().ToMarkDown()}},
+                {"value", x=> new[]{x.Nodes().ToMarkDown()}},
+                {"c", x=> new[]{x.Nodes().ToMarkDown()}},
+                {"list", x=> new[]{x.Nodes().ToMarkDown()}},
+                {"listheader", x=> new[]
+                {
+                    x.Element("term").ToMarkDown(),
+                    x.Element("description").ToMarkDown()
+                }},
+                {"tableitem", x=> new[]
+                {
+                    x.Element("term").ToMarkDown(),
+                    x.Element("description").ToMarkDown()
+                }},
+                {"item", x=> new[]
+                {
+                    currentlistPrefix,
+                    x.Nodes().ToMarkDown()
+                }},
+                {"term", x => new[]{x.Nodes().ToMarkDown()} },
+                {"description", x => new[]{x.Nodes().ToMarkDown()}},
+                {"none", x => new string[0]}
+            };
         }
 
         private static Dictionary<string, string> BuildTemplates()
@@ -156,16 +198,22 @@ namespace XmlToMarkdown
                 {"seePage", "`{0}`"},
                 {"seeAnchor", "[{1}]({0})"},
                 {"seeHeader", "[{0}](#{0})"},
-                {"param", "| Parameter | Description |\n|-----|------|\n| {0} | {1} |\n" },
+                {"param", ParameterTableHeader },
+                {"typeparam", ParameterTableHeader },
                 {"param2", "| {0} | {1} |\n" },
-                {"paramref","`{0}`" },
-                {"exception", "[[{0}|{0}]]: {1}\n\n" },
+                {"paramref", "`{0}`" },
+                {"typeparamref", "`{0}`"},
+                {"exception", "\n**Exception:** [{0}({0})]: {1}\n\n" },
                 {"returns", "\n**Returns:** {0}\n\n"},
                 {"para", "\n\n{0}\n\n"},
                 {"value","**Value:** {0}\n\n" },
-                {"c","`{0}`" },
-                {"list","{0}\n\n"},
-                {"item","{0} {1}\n"},
+                {"c", "`{0}`" },
+                {"list", "{0}\n\n"},
+                {"listheader", ListTableHeader },
+                {"tableitem", "| {0} | {1} |\n" },
+                {"item", "{0} {1}\n"},
+                {"term", "{0}" },
+                {"description", "{0}" },
                 {"none", Empty}
             };
         }
