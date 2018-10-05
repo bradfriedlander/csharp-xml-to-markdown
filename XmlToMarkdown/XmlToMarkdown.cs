@@ -131,10 +131,13 @@ namespace XmlToMarkdown
                 }
                 return Format(templates[name], methods[name](el).ToArray());
             }
-            return e.NodeType == XmlNodeType.Text ? Regex.Replace(((XText)e).Value.Replace('\n', ' '), @"\s+", " ") : Empty;
+            return e.NodeType == XmlNodeType.Text ? Regex.Replace(((XText)e).Value.Replace("\n "," ").Replace('\n', ' '), @"\s+", " ") : Empty;
         }
 
-        internal static string ToMarkDown(this IEnumerable<XNode> es) => es.Aggregate("", (current, x) => current + x.ToMarkDown());
+        internal static string ToMarkDown(this IEnumerable<XNode> es)
+        {
+            return es.Aggregate("", (current, x) => current + x.ToMarkDown());
+        }
 
         private static void BuildMethods()
         {
@@ -151,8 +154,8 @@ namespace XmlToMarkdown
                 {"property", x=> d("name", x)},
                 {"method", x=>d("name", x)},
                 {"event", x=>d("name", x)},
-                {"summary", x=> new[]{x.Nodes().ToMarkDown()}},
-                {"remarks", x => new[]{x.Nodes().ToMarkDown()}},
+                {"summary", x=> new[]{x.Nodes().ToMarkDown().Trim()}},
+                {"remarks", x => new[]{x.Nodes().ToMarkDown().Trim()}},
                 {"example", x => new[]{x.Value.ToCodeBlock()}},
                 {"seePage", x=> d("cref", x) },
                 {"seeAnchor", x=> dl("cref",x)},
@@ -163,8 +166,8 @@ namespace XmlToMarkdown
                 {"paramref",x=> d("name", x) },
                 {"typeparamref",x=> d("name", x) },
                 {"exception", x => d("cref", x) },
-                {"returns", x => new[]{x.Nodes().ToMarkDown()}},
-                {"para", x => new[]{x.Nodes().ToMarkDown()}},
+                {"returns", x => new[]{x.Nodes().ToMarkDown().Trim()}},
+                {"para", x => new[]{x.Nodes().ToMarkDown().Trim()}},
                 {"value", x=> new[]{x.Nodes().ToMarkDown()}},
                 {"c", x=> new[]{x.Nodes().ToMarkDown()}},
                 {"list", x=> new[]{x.Nodes().ToMarkDown()}},
@@ -194,11 +197,11 @@ namespace XmlToMarkdown
             return new Dictionary<string, string>
             {
                 {"doc", "# {0}\n\n{1}\n\n{2}\n\n"},
-                {"type", "## {0}\n\n{1}\n\n---\n"},
-                {"field", "### {0}\n\n{1}\n\n---\n"},
-                {"property", "### {0}\n\n{1}\n\n---\n"},
-                {"method", "### {0}\n\n{1}\n\n---\n"},
-                {"event", "### {0}\n\n{1}\n\n---\n"},
+                {"type", "## {0}\n\n{1}\n\n---\n\n"},
+                {"field", "### {0}\n\n{1}\n\n---\n\n"},
+                {"property", "### {0}\n\n{1}\n\n---\n\n"},
+                {"method", "### {0}\n\n{1}\n\n---\n\n"},
+                {"event", "### {0}\n\n{1}\n\n---\n\n"},
                 {"summary", "{0}\n\n"},
                 {"remarks", "\n\n{0}\n\n"},
                 {"example", "_C# code_\n\n```c#\n{0}\n```\n\n"},

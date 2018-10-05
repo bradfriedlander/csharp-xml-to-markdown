@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.String;
 
 namespace XmlToMarkdown
 {
@@ -26,6 +28,7 @@ namespace XmlToMarkdown
             var xml = File.ReadAllText(args[0]);
             var doc = XDocument.Parse(xml);
             var md = doc.Root.ToMarkDown();
+            md = Regex.Replace(md, "\n\n(\n)+", "\n\n");
             if (isDebugging)
             {
                 Console.WriteLine(md);
