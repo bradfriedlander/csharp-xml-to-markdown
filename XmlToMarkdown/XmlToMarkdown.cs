@@ -10,9 +10,9 @@ namespace XmlToMarkdown
 {
     internal static class XmlToMarkdown
     {
+        private const string ListTableHeader = "| {0} | {1} |\n|-----|------|\n";
         private const string MemberPattern = "^[T|M|P|F|E]:";
         private const string ParameterTableHeader = "| Parameter | Description |\n|-----|------|\n| {0} | {1} |\n";
-        private const string ListTableHeader = "| {0} | {1} |\n|-----|------|\n";
 
         private static readonly Func<string, XElement, string[]> d = new Func<string, XElement, string[]>((att, node) =>
         {
@@ -38,10 +38,11 @@ namespace XmlToMarkdown
 
         private static readonly Dictionary<string, string> templates = BuildTemplates();
         private static string currentlistPrefix;
+        private static bool isListTable;
         private static Dictionary<string, Func<XElement, IEnumerable<string>>> methods;
         private static bool previousWasParameter;
         private static string rootName;
-        private static bool isListTable;
+        private static XElement namespaceElement;
 
         internal static string ToMarkDown(this XNode e)
         {
@@ -57,6 +58,7 @@ namespace XmlToMarkdown
                 if (name == "doc")
                 {
                     rootName = el.Element("assembly").Element("name").Value;
+                    namespaceElement = el.Element("members").Elements("member").Where(m => IsNamespaceDocElement(m)).FirstOrDefault();
                 }
                 var previousNode = e.PreviousNode;
                 previousWasParameter =
@@ -79,6 +81,10 @@ namespace XmlToMarkdown
                             break;
                         case 'T':
                             name = "type";
+                            if (IsNamespaceDocElement(el))
+                            {
+                                name = "none";
+                            }
                             break;
                         case 'E':
                             name = "event";
@@ -136,7 +142,8 @@ namespace XmlToMarkdown
             {
                 {"doc", x=> new[]
                 {
-                    x.Element("assembly").Element("name").Value,
+                    rootName,
+                    namespaceElement?.Nodes().ToMarkDown() ?? Empty,
                     x.Element("members").Elements("member").ToMarkDown()
                 }},
                 {"type", x=>d("name", x)},
@@ -186,7 +193,7 @@ namespace XmlToMarkdown
         {
             return new Dictionary<string, string>
             {
-                {"doc", "# {0}\n\n{1}\n\n"},
+                {"doc", "# {0}\n\n{1}\n\n{2}\n\n"},
                 {"type", "## {0}\n\n{1}\n\n---\n"},
                 {"field", "### {0}\n\n{1}\n\n---\n"},
                 {"property", "### {0}\n\n{1}\n\n---\n"},
@@ -216,6 +223,21 @@ namespace XmlToMarkdown
                 {"description", "{0}" },
                 {"none", Empty}
             };
+        }
+
+        /// <summary>
+        ///     This method determines if the specified element is a NamespaceDoc class.
+        /// </summary>
+        /// <param name="elementToCheck">This is the element to check.</param>
+        /// <returns><c>true</c> if the specified element is a NamespaceDoc class; otherwise, <c>false</c>.</returns>
+        private static bool IsNamespaceDocElement(XElement elementToCheck)
+        {
+            if (elementToCheck.Name.LocalName != "member")
+            {
+                return false;
+            }
+            var memberName = elementToCheck.Attribute("name").Value;
+            return memberName.StartsWith("T:") && memberName.EndsWith(".NamespaceDoc");
         }
 
         private static string ToCodeBlock(this string s)
