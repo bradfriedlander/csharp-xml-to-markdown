@@ -151,7 +151,7 @@ namespace XmlToMarkdown
                 {"property", x=> d("name", x)},
                 {"method", x=>d("name", x)},
                 {"event", x=>d("name", x)},
-                {"summary", x=> new[]{x.Nodes().ToMarkDown() }},
+                {"summary", x=> new[]{x.Nodes().ToMarkDown()}},
                 {"remarks", x => new[]{x.Nodes().ToMarkDown()}},
                 {"example", x => new[]{x.Value.ToCodeBlock()}},
                 {"seePage", x=> d("cref", x) },
