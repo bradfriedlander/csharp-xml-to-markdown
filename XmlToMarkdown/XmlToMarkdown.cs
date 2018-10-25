@@ -25,6 +25,18 @@ namespace XmlToMarkdown
                     };
         });
 
+        private static readonly Func<string, XElement, string[]> dh = new Func<string, XElement, string[]>((att, node) =>
+        {
+            var attValue = node.Attribute(att).Value;
+            attValue = Regex.Replace(attValue, MemberPattern, Empty);
+            return new[]
+            {
+                    attValue,
+                    attValue.Replace(".",Empty).ToLower(),
+                    node.Nodes().ToMarkDown()
+                    };
+        });
+
         private static readonly Func<string, XElement, string[]> dl = new Func<string, XElement, string[]>((att, node) =>
         {
             var attValue = node.Attribute(att).Value;
@@ -159,7 +171,7 @@ namespace XmlToMarkdown
                 {"example", x => new[]{x.Value.ToCodeBlock()}},
                 {"seePage", x=> d("cref", x) },
                 {"seeAnchor", x=> dl("cref",x)},
-                {"seeHeader", x=> d("cref", x) },
+                {"seeHeader", x=> dh("cref", x) },
                 {"param", x => d("name", x) },
                 {"typeparam", x => d("name", x) },
                 {"param2", x => d("name", x) },
@@ -207,7 +219,7 @@ namespace XmlToMarkdown
                 {"example", "_C# code_\n\n```c#\n{0}\n```\n\n"},
                 {"seePage", "`{0}`"},
                 {"seeAnchor", "[{1}]({0})"},
-                {"seeHeader", "[{0}](#{0})"},
+                {"seeHeader", "[{0}](#{1})"},
                 {"param", ParameterTableHeader },
                 {"typeparam", ParameterTableHeader },
                 {"param2", "| {0} | {1} |\n" },

@@ -2,7 +2,7 @@
   "profiles": {
     "XmlToMarkdown": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\TestDev\\demoMetrics\\src\\MagenicMetrics\\MagenicMetrics.xml\" \"C:\\TestDev\\demoMetrics\\documentation\\MagenicMetrics.md\""
+      "commandLineArgs": "\"C:\\MagenicDev\\aspnet-core-metrics\\src\\MagenicMetrics\\MagenicMetrics.xml\" \"C:\\MagenicDev\\aspnet-core-metrics\\documentation\\MagenicMetrics.md\""
     }
   }
 }
