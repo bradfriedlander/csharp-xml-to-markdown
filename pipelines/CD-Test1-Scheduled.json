@@ -1,0 +1,470 @@
+{
+  "artifacts": [
+    {
+      "alias": "_SRC",
+      "definitionReference": {
+        "IsMultiDefinitionType": {
+          "id": "False",
+          "name": "False"
+        },
+        "artifactSourceDefinitionUrl": {
+          "id": "https://dev.azure.com/bradfriedlander/_permalink/_build/index?collectionId=879d7941-f5b1-4f04-bc4c-95760175eb1c&projectId=7e20074e-e927-49be-b99c-8204e570cec2&definitionId=1",
+          "name": ""
+        },
+        "defaultVersionBranch": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionSpecific": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionTags": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionType": {
+          "id": "latestType",
+          "name": "Latest"
+        },
+        "definition": {
+          "id": "1",
+          "name": "CI-Test1"
+        },
+        "definitions": {
+          "id": "",
+          "name": ""
+        },
+        "project": {
+          "id": "7e20074e-e927-49be-b99c-8204e570cec2",
+          "name": "XmlToMarkdown"
+        },
+        "repository": {
+          "id": "",
+          "name": ""
+        }
+      },
+      "isPrimary": true,
+      "isRetained": false,
+      "sourceId": "7e20074e-e927-49be-b99c-8204e570cec2:1",
+      "type": "Build"
+    }
+  ],
+  "comment": null,
+  "createdBy": {
+    "descriptor": "msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+    "directoryAlias": null,
+    "displayName": "Brad Friedlander",
+    "id": "d97502a5-bff4-4927-85a9-b2fbf4fe9cc2",
+    "imageUrl": "https://dev.azure.com/bradfriedlander/_apis/GraphProfile/MemberAvatars/msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+    "inactive": null,
+    "isAadIdentity": null,
+    "isContainer": null,
+    "isDeletedInOrigin": null,
+    "profileUrl": null,
+    "uniqueName": "bradf@magenic.com",
+    "url": "https://spsprodeus27.vssps.visualstudio.com/A8557b057-37e8-4a73-9e57-fff9f1bef354/_apis/Identities/d97502a5-bff4-4927-85a9-b2fbf4fe9cc2"
+  },
+  "createdOn": "2019-09-17T09:32:32.860000+00:00",
+  "description": null,
+  "environments": [
+    {
+      "badgeUrl": "https://vsrm.dev.azure.com/bradfriedlander/_apis/public/Release/badge/7e20074e-e927-49be-b99c-8204e570cec2/1/1",
+      "conditions": [
+        {
+          "conditionType": "event",
+          "name": "ReleaseStarted",
+          "value": ""
+        }
+      ],
+      "currentRelease": {
+        "id": 3,
+        "name": null,
+        "url": "https://vsrm.dev.azure.com/bradfriedlander/7e20074e-e927-49be-b99c-8204e570cec2/_apis/Release/releases/3"
+      },
+      "demands": [],
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "agentSpecification": {
+              "identifier": "windows-2019"
+            },
+            "artifactsDownloadInput": {
+              "downloadInputs": []
+            },
+            "condition": "succeeded()",
+            "demands": [],
+            "enableAccessToken": false,
+            "jobCancelTimeoutInMinutes": 1,
+            "overrideInputs": {},
+            "parallelExecution": {
+              "parallelExecutionType": "none"
+            },
+            "queueId": 22,
+            "skipArtifactsDownload": false,
+            "timeoutInMinutes": 0
+          },
+          "name": "Agent job",
+          "phaseType": "agentBasedDeployment",
+          "rank": 1,
+          "refName": null,
+          "workflowTasks": []
+        }
+      ],
+      "deployStep": {
+        "id": 4,
+        "tasks": null
+      },
+      "environmentOptions": {
+        "autoLinkWorkItems": false,
+        "badgeEnabled": false,
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "enableAccessToken": false,
+        "publishDeploymentStatus": true,
+        "pullRequestDeploymentEnabled": false,
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0
+      },
+      "environmentTriggers": [],
+      "executionPolicy": {
+        "concurrencyCount": 1,
+        "queueDepthCount": 0
+      },
+      "id": 1,
+      "name": "euwdev",
+      "owner": {
+        "descriptor": "msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+        "directoryAlias": null,
+        "displayName": "Brad Friedlander",
+        "id": "d97502a5-bff4-4927-85a9-b2fbf4fe9cc2",
+        "imageUrl": "https://dev.azure.com/bradfriedlander/_apis/GraphProfile/MemberAvatars/msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+        "inactive": null,
+        "isAadIdentity": null,
+        "isContainer": null,
+        "isDeletedInOrigin": null,
+        "profileUrl": null,
+        "uniqueName": "bradf@magenic.com",
+        "url": "https://spsprodeus27.vssps.visualstudio.com/A8557b057-37e8-4a73-9e57-fff9f1bef354/_apis/Identities/d97502a5-bff4-4927-85a9-b2fbf4fe9cc2"
+      },
+      "postDeployApprovals": {
+        "approvalOptions": {
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "executionOrder": "afterSuccessfulGates",
+          "releaseCreatorCanBeApprover": false,
+          "requiredApproverCount": null,
+          "timeoutInMinutes": 0
+        },
+        "approvals": [
+          {
+            "approver": null,
+            "id": 5,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "rank": 1
+          }
+        ]
+      },
+      "postDeploymentGates": {
+        "gates": [],
+        "gatesOptions": null,
+        "id": 0
+      },
+      "preDeployApprovals": {
+        "approvalOptions": {
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "executionOrder": "beforeGates",
+          "releaseCreatorCanBeApprover": false,
+          "requiredApproverCount": null,
+          "timeoutInMinutes": 0
+        },
+        "approvals": [
+          {
+            "approver": null,
+            "id": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "rank": 1
+          }
+        ]
+      },
+      "preDeploymentGates": {
+        "gates": [],
+        "gatesOptions": null,
+        "id": 0
+      },
+      "processParameters": {
+        "dataSourceBindings": null,
+        "inputs": null,
+        "sourceDefinitions": null
+      },
+      "properties": {
+        "BoardsEnvironmentType": {
+          "$type": "System.String",
+          "$value": "unmapped"
+        },
+        "LinkBoardsWorkItems": {
+          "$type": "System.String",
+          "$value": "False"
+        }
+      },
+      "queueId": null,
+      "rank": 1,
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      },
+      "runOptions": null,
+      "schedules": [],
+      "variableGroups": [],
+      "variables": {}
+    },
+    {
+      "badgeUrl": "https://vsrm.dev.azure.com/bradfriedlander/_apis/public/Release/badge/7e20074e-e927-49be-b99c-8204e570cec2/1/2",
+      "conditions": [
+        {
+          "conditionType": "environmentState",
+          "name": "euwdev",
+          "value": "4"
+        }
+      ],
+      "currentRelease": {
+        "id": 2,
+        "name": null,
+        "url": "https://vsrm.dev.azure.com/bradfriedlander/7e20074e-e927-49be-b99c-8204e570cec2/_apis/Release/releases/2"
+      },
+      "demands": [],
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "agentSpecification": {
+              "identifier": "vs2017-win2016"
+            },
+            "artifactsDownloadInput": {
+              "downloadInputs": []
+            },
+            "condition": "succeeded()",
+            "demands": [],
+            "enableAccessToken": false,
+            "jobCancelTimeoutInMinutes": 1,
+            "overrideInputs": {},
+            "parallelExecution": {
+              "parallelExecutionType": "none"
+            },
+            "queueId": 22,
+            "skipArtifactsDownload": false,
+            "timeoutInMinutes": 0
+          },
+          "name": "Agent job",
+          "phaseType": "agentBasedDeployment",
+          "rank": 1,
+          "refName": null,
+          "workflowTasks": []
+        }
+      ],
+      "deployStep": {
+        "id": 3,
+        "tasks": null
+      },
+      "environmentOptions": {
+        "autoLinkWorkItems": false,
+        "badgeEnabled": false,
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "enableAccessToken": false,
+        "publishDeploymentStatus": true,
+        "pullRequestDeploymentEnabled": false,
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0
+      },
+      "environmentTriggers": [],
+      "executionPolicy": {
+        "concurrencyCount": 1,
+        "queueDepthCount": 0
+      },
+      "id": 2,
+      "name": "euwqa",
+      "owner": {
+        "descriptor": "msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+        "directoryAlias": null,
+        "displayName": "Brad Friedlander",
+        "id": "d97502a5-bff4-4927-85a9-b2fbf4fe9cc2",
+        "imageUrl": "https://dev.azure.com/bradfriedlander/_apis/GraphProfile/MemberAvatars/msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+        "inactive": null,
+        "isAadIdentity": null,
+        "isContainer": null,
+        "isDeletedInOrigin": null,
+        "profileUrl": null,
+        "uniqueName": "bradf@magenic.com",
+        "url": "https://spsprodeus27.vssps.visualstudio.com/A8557b057-37e8-4a73-9e57-fff9f1bef354/_apis/Identities/d97502a5-bff4-4927-85a9-b2fbf4fe9cc2"
+      },
+      "postDeployApprovals": {
+        "approvalOptions": {
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "executionOrder": "afterSuccessfulGates",
+          "releaseCreatorCanBeApprover": false,
+          "requiredApproverCount": null,
+          "timeoutInMinutes": 0
+        },
+        "approvals": [
+          {
+            "approver": null,
+            "id": 6,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "rank": 1
+          }
+        ]
+      },
+      "postDeploymentGates": {
+        "gates": [],
+        "gatesOptions": null,
+        "id": 0
+      },
+      "preDeployApprovals": {
+        "approvalOptions": {
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "executionOrder": "beforeGates",
+          "releaseCreatorCanBeApprover": false,
+          "requiredApproverCount": null,
+          "timeoutInMinutes": 0
+        },
+        "approvals": [
+          {
+            "approver": null,
+            "id": 8,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "rank": 1
+          }
+        ]
+      },
+      "preDeploymentGates": {
+        "gates": [],
+        "gatesOptions": null,
+        "id": 0
+      },
+      "processParameters": {
+        "dataSourceBindings": null,
+        "inputs": null,
+        "sourceDefinitions": null
+      },
+      "properties": {
+        "BoardsEnvironmentType": {
+          "$type": "System.String",
+          "$value": "unmapped"
+        },
+        "LinkBoardsWorkItems": {
+          "$type": "System.String",
+          "$value": "False"
+        }
+      },
+      "queueId": null,
+      "rank": 2,
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      },
+      "runOptions": null,
+      "schedules": [
+        {
+          "daysToRelease": 63,
+          "jobId": "769bd2ac-74f3-40af-83ad-20918c718ee0",
+          "startHours": 1,
+          "startMinutes": 0,
+          "timeZoneId": "Eastern Standard Time"
+        }
+      ],
+      "variableGroups": [],
+      "variables": {}
+    }
+  ],
+  "id": 1,
+  "isDeleted": false,
+  "lastRelease": {
+    "artifacts": [],
+    "createdBy": {
+      "descriptor": "msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+      "directoryAlias": null,
+      "displayName": "Brad Friedlander",
+      "id": "d97502a5-bff4-4927-85a9-b2fbf4fe9cc2",
+      "imageUrl": "https://dev.azure.com/bradfriedlander/_apis/GraphProfile/MemberAvatars/msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+      "inactive": null,
+      "isAadIdentity": null,
+      "isContainer": null,
+      "isDeletedInOrigin": null,
+      "profileUrl": null,
+      "uniqueName": "bradf@magenic.com",
+      "url": "https://spsprodeus27.vssps.visualstudio.com/A8557b057-37e8-4a73-9e57-fff9f1bef354/_apis/Identities/d97502a5-bff4-4927-85a9-b2fbf4fe9cc2"
+    },
+    "createdOn": "2019-09-17T18:18:57.407000+00:00",
+    "description": "Triggered by Repository: Microsoft.VisualStudio.Services.ReleaseManagement.Server.Plugins.Model.GitRepository, Branch: refs/heads/master, Commit Id: 50.",
+    "id": 3,
+    "modifiedBy": null,
+    "name": "Release-3",
+    "reason": null,
+    "releaseDefinition": {
+      "id": 1,
+      "name": null,
+      "path": null,
+      "projectReference": null,
+      "url": null
+    },
+    "url": null,
+    "webAccessUri": null
+  },
+  "modifiedBy": {
+    "descriptor": "msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+    "directoryAlias": null,
+    "displayName": "Brad Friedlander",
+    "id": "d97502a5-bff4-4927-85a9-b2fbf4fe9cc2",
+    "imageUrl": "https://dev.azure.com/bradfriedlander/_apis/GraphProfile/MemberAvatars/msa.NjA1MjdlMjEtOWIyYy03MDBkLTk2NzMtNGFiYzNjNDQ0MDJl",
+    "inactive": null,
+    "isAadIdentity": null,
+    "isContainer": null,
+    "isDeletedInOrigin": null,
+    "profileUrl": null,
+    "uniqueName": "bradf@magenic.com",
+    "url": "https://spsprodeus27.vssps.visualstudio.com/A8557b057-37e8-4a73-9e57-fff9f1bef354/_apis/Identities/d97502a5-bff4-4927-85a9-b2fbf4fe9cc2"
+  },
+  "modifiedOn": "2019-09-18T10:52:37.337000+00:00",
+  "name": "CD-Test1",
+  "path": "\\CTP",
+  "pipelineProcess": null,
+  "projectReference": null,
+  "properties": {
+    "DefinitionCreationSource": {
+      "$type": "System.String",
+      "$value": "ReleaseNew"
+    },
+    "IntegrateBoardsWorkItems": {
+      "$type": "System.String",
+      "$value": "False"
+    },
+    "IntegrateJiraWorkItems": {
+      "$type": "System.String",
+      "$value": "false"
+    }
+  },
+  "releaseNameFormat": "Release-$(rev:r)",
+  "retentionPolicy": null,
+  "revision": 10,
+  "source": "userInterface",
+  "tags": [],
+  "triggers": [
+    {
+      "artifactAlias": "_SRC",
+      "triggerConditions": [],
+      "triggerType": "artifactSource"
+    }
+  ],
+  "url": "https://vsrm.dev.azure.com/bradfriedlander/7e20074e-e927-49be-b99c-8204e570cec2/_apis/Release/definitions/1",
+  "variableGroups": [],
+  "variables": {}
+}
