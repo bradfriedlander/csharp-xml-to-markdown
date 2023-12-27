@@ -2,7 +2,7 @@
 
 ## XmlToMarkdown.Program
 
-This calss contains the main entry point for the application.
+This class contains the main entry point for the application.
 
 ---
 

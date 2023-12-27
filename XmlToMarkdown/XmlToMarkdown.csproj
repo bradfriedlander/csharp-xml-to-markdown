@@ -5,13 +5,17 @@
     <LangVersion>10.0</LangVersion>
     <TargetFrameworks>netcoreapp8.0</TargetFrameworks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>C:\MagenicDev\XmlToMarkdown\Documentation\XmlToMarkdown.xml</DocumentationFile>
+    <DocumentationFile>C:\Repos\csharp-xml-to-markdown\Documentation\XmlToMarkdown.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Documentation\**" />
     <EmbeddedResource Remove="Documentation\**" />
     <None Remove="Documentation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="XmlToMarkdown\" />
   </ItemGroup>
 
 </Project>

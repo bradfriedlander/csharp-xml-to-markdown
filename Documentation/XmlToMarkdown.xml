@@ -5,7 +5,7 @@
     </assembly>
     <members>
         <member name="T:XmlToMarkdown.Program">
-            <summary>This calss contains the main entry point for the application.</summary>
+            <summary>This class contains the main entry point for the application.</summary>
         </member>
         <member name="M:XmlToMarkdown.Program.Main(System.String[])">
             <summary>Defines the entry point of the application.</summary>
