@@ -14,7 +14,18 @@ Defines the entry point of the application.
 |:--|:--|
 |args|These are the arguments for the program.|
 
-Usage: XmlToMarkdown {inputPathname} {outputPathname}
+Usage: XmlToMarkdown -i *documentationInputFile* [-o *markdownOutputFile*]
+
+* -i: This is a required pathname for the C# XML documentation file.
+* -o: This is the optional pathname for the resulting Markdown file.
+
+If "-o" is not specified, the pathname used is the same as the "-i" file.
+
+---
+
+### XmlToMarkdown.Program.PauseIfDebugging
+
+Pauses if debugging is enabled.
 
 ---
 

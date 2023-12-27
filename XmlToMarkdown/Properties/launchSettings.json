@@ -4,7 +4,9 @@
 			"commandName": "Project",
 			//"commandLineArgs": "\"C:\\MagenicDev\\aspnet-core-metrics\\src\\MagenicMetrics\\MagenicMetrics.xml\" \"C:\\MagenicDev\\aspnet-core-metrics\\documentation\\MagenicMetrics.md\"",
 			//"commandLineArgs": "\"C:\\MagenicDev\\XmlToMarkdown\\Documentation\\XmlToMarkdown.xml\" \"C:\\MagenicDev\\XmlToMarkdown\\Documentation\\XmlToMarkdown.md\"",
-			"commandLineArgs": "\"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.xml\" \"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.md\""
+			//"commandLineArgs": "\"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.xml\" \"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.md\"",
+			//"commandLineArgs": "-i \"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.xml\" -o \"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.md\"",
+			"commandLineArgs": "-i \"C:\\Repos\\csharp-xml-to-markdown\\Documentation\\XmlToMarkdown.xml\""
 		}
 	}
 }

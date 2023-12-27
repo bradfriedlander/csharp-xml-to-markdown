@@ -220,7 +220,7 @@ namespace XmlToMarkdown
 					currentlistPrefix,
 					x.Nodes().ToMarkDown()
 				}},
-				{"term", x => new[]{x.Nodes().ToMarkDown()} },
+				{"term", x => new[]{x.Nodes().ToMarkDown()}},
 				{"description", x => new[]{x.Nodes().ToMarkDown()}},
 				{"none", x => Array.Empty<string>()}
 			};
@@ -258,7 +258,7 @@ namespace XmlToMarkdown
 				{"listheader", ListTableHeader },
 				{"tableitem", "|{0}|{1}|\n" },
 				{"item", "{0} {1}\n"},
-				{"term", "{0}" },
+				{"term", "{0}: " },
 				{"description", "{0}" },
 				{"none", Empty}
 			};

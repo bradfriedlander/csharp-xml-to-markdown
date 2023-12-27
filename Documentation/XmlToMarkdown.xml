@@ -11,8 +11,16 @@
             <summary>Defines the entry point of the application.</summary>
             <param name="args">These are the arguments for the program.</param>
             <remarks>
-            <para>Usage: XmlToMarkdown {inputPathname} {outputPathname}</para>
+            <para>Usage: XmlToMarkdown -i *documentationInputFile* [-o *markdownOutputFile*]</para>
+            <list type="bullet">
+            <item><term>-i</term><description>This is a required pathname for the C# XML documentation file.</description></item>
+            <item><term>-o</term><description>This is the optional pathname for the resulting Markdown file.</description></item>
+            </list>
+            <para>If "-o" is not specified, the pathname used is the same as the "-i" file.</para>
             </remarks>
+        </member>
+        <member name="M:XmlToMarkdown.Program.PauseIfDebugging">
+            <summary>Pauses if debugging is enabled.</summary>
         </member>
         <member name="T:XmlToMarkdown.XmlToMarkdown">
             <summary>This class supports the conversion of C# generated document to Markdown.</summary>
