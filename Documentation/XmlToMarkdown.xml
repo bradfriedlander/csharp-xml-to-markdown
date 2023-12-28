@@ -49,6 +49,7 @@
             <list type="number">
             <item>The function concatenates the <see cref="M:XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode})"/> value of each node.</item>
             <item>The concatenation starts with an empty string.</item>
+            <item>The function is recursive.</item>
             </list>
             </summary>
             <param name="es">This is the set of C# documentation nodes.</param>

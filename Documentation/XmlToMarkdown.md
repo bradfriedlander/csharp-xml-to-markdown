@@ -71,6 +71,7 @@ This method converts a set of C# documentation nodes to markdown content.
 
 1. The function concatenates the [XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode})](#xmltomarkdownxmltomarkdowntomarkdownsystemcollectionsgenericienumerablesystemxmllinqxnode) value of each node.
 1. The concatenation starts with an empty string.
+1. The function is recursive.
 
 |Parameter|Description|
 |:--|:--|

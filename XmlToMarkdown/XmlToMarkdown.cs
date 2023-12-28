@@ -168,6 +168,7 @@ namespace XmlToMarkdown
 		/// <list type="number">
 		/// <item>The function concatenates the <see cref="ToMarkDown(IEnumerable{XNode})"/> value of each node.</item>
 		/// <item>The concatenation starts with an empty string.</item>
+		/// <item>The function is recursive.</item>
 		/// </list>
 		/// </summary>
 		/// <param name="es">This is the set of C# documentation nodes.</param>
