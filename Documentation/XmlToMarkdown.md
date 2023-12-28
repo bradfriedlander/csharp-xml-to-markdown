@@ -69,6 +69,9 @@ This method converts the current C# documentation node to markdown.
 
 This method converts a set of C# documentation nodes to markdown content.
 
+1. The function concatenates the [XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Xml.Linq.XNode)](#xmltomarkdownxmltomarkdowntomarkdown(systemxmllinqxnode)) value of each node.
+1. The concatenation starts with an empty string.
+
 |Parameter|Description|
 |:--|:--|
 |es|This is the set of C# documentation nodes.|

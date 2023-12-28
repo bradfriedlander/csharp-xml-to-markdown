@@ -44,7 +44,13 @@
             <returns>This is a string containing the Markdown content.</returns>
         </member>
         <member name="M:XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode})">
-            <summary>This method converts a set of C# documentation nodes to markdown content.</summary>
+            <summary>
+            <para>This method converts a set of C# documentation nodes to markdown content.</para>
+            <list type="number">
+            <item>The function concatenates the <see cref="M:XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Xml.Linq.XNode)"/> value of each node.</item>
+            <item>The concatenation starts with an empty string.</item>
+            </list>
+            </summary>
             <param name="es">This is the set of C# documentation nodes.</param>
             <returns>This is the Markdown content.</returns>
         </member>

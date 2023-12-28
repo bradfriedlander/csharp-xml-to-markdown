@@ -163,12 +163,18 @@ namespace XmlToMarkdown
 			return thisNode.NodeType == XmlNodeType.Text ? Regex.Replace(((XText)thisNode).Value.Replace("\n ", " ").Replace('\n', ' '), @"\s+", " ") : Empty;
 		}
 
-		/// <summary>This method converts a set of C# documentation nodes to markdown content.</summary>
+		/// <summary>
+		/// <para>This method converts a set of C# documentation nodes to markdown content.</para>
+		/// <list type="number">
+		/// <item>The function concatenates the <see cref="ToMarkDown"/> value of each node.</item>
+		/// <item>The concatenation starts with an empty string.</item>
+		/// </list>
+		/// </summary>
 		/// <param name="es">This is the set of C# documentation nodes.</param>
 		/// <returns>This is the Markdown content.</returns>
 		internal static string ToMarkDown(this IEnumerable<XNode> es)
 		{
-			return es.Aggregate("", (current, x) => current + x.ToMarkDown());
+			return es.Aggregate<XNode,string>(Empty, (current, x) => current + x.ToMarkDown());
 		}
 
 		/// <summary>This method builds a dictionary of markdown generation methods.</summary>
@@ -183,11 +189,11 @@ namespace XmlToMarkdown
 					namespaceElement?.Nodes().ToMarkDown() ?? Empty,
 					x.Element("members").Elements("member").ToMarkDown()
 				}},
-				{"type", x=>getNodeData("name", x)},
+				{"type", x=> getNodeData("name", x)},
 				{"field", x=> getNodeData("name", x)},
 				{"property", x=> getNodeData("name", x)},
-				{"method", x=>getNodeData("name", x)},
-				{"event", x=>getNodeData("name", x)},
+				{"method", x=> getNodeData("name", x)},
+				{"event", x=> getNodeData("name", x)},
 				{"summary", x=> new[]{x.Nodes().ToMarkDown().Trim()}},
 				{"remarks", x => new[]{x.Nodes().ToMarkDown().Trim()}},
 				{"example", x => new[]{x.Value.ToCodeBlock()}},
