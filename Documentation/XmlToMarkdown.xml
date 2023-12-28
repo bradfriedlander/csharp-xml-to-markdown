@@ -47,7 +47,7 @@
             <summary>
             <para>This method converts a set of C# documentation nodes to markdown content.</para>
             <list type="number">
-            <item>The function concatenates the <see cref="M:XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Xml.Linq.XNode)"/> value of each node.</item>
+            <item>The function concatenates the <see cref="M:XmlToMarkdown.XmlToMarkdown.ToMarkDown(System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode})"/> value of each node.</item>
             <item>The concatenation starts with an empty string.</item>
             </list>
             </summary>

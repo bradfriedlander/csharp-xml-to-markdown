@@ -37,7 +37,7 @@ namespace XmlToMarkdown
 			return new[]
 			{
 				attValue,
-				attValue.Replace(".",Empty).ToLower(),
+				attValue.Replace(".",Empty).Replace("{",Empty).Replace("}",Empty).Replace("(",Empty).Replace(")",Empty).ToLower(),
 				node.Nodes().ToMarkDown()
 				};
 		});
@@ -166,7 +166,7 @@ namespace XmlToMarkdown
 		/// <summary>
 		/// <para>This method converts a set of C# documentation nodes to markdown content.</para>
 		/// <list type="number">
-		/// <item>The function concatenates the <see cref="ToMarkDown"/> value of each node.</item>
+		/// <item>The function concatenates the <see cref="ToMarkDown(IEnumerable{XNode})"/> value of each node.</item>
 		/// <item>The concatenation starts with an empty string.</item>
 		/// </list>
 		/// </summary>
